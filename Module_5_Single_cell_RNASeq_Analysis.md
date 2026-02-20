@@ -29,11 +29,9 @@ and are classified into following groupings:
 
 -   Install the most recent version of R and RStudio on your laptop:
 
--   R
-    > ([[https://cran.rstudio.com/bin/windows/]{.underline}](https://cran.rstudio.com/bin/windows/))
+-   R ([[https://cran.rstudio.com/bin/windows/]](https://cran.rstudio.com/bin/windows/))
 
--   RStudio
-    > ([[https://posit.co/download/rstudio-desktop/]{.underline}](https://posit.co/download/rstudio-desktop/))
+-   RStudio ([[https://posit.co/download/rstudio-desktop/]](https://posit.co/download/rstudio-desktop/))
 
 **3.2 Install R packages**
 
@@ -48,23 +46,17 @@ Open RStudio and install the following packages listed below one by one.
 -   All the package names listed below are case sensitive!
 
 ```r
-| install.packages("tidyverse")                                         |
-|                                                                       |
-| install.packages("Matrix")                                            |
-|                                                                       |
-| install.packages("RCurl")                                             |
-|                                                                       |
-| install.packages("scales")                                            |
-|                                                                       |
-| install.packages("cowplot")                                           |
-|                                                                       |
-| install.packages("devtools")                                          |
-|                                                                       |
-| install.packages("BiocManager")                                       |
-|                                                                       |
-| install.packages("Seurat")                                            |
-|                                                                       |
-| BiocManager::install("DESeq2")                                      |
+#Install required packages
+
+ install.packages("tidyverse")                                                                                                             
+ install.packages("Matrix")                                                                                                             
+ install.packages("RCurl")                                                                                                                  
+ install.packages("scales")                                                                                                                 
+ install.packages("cowplot")                                                                                                                
+ install.packages("devtools")                                                                                                               
+ install.packages("BiocManager")                                                                                                            
+ install.packages("Seurat")                                                                                                                 
+ BiocManager::install("DESeq2")                                      |
 ```
 
 **3.3 Set up working directory and download sample count matrix**
@@ -73,22 +65,21 @@ Open RStudio and install the following packages listed below one by one.
     > command:
 
 ```r
-| #Set working directory                                                |
-|                                                                       |
-| setwd("path/to/working/directory/")                                   |
-|                                                                       |
-| #Check if it has changed to desired path                              |
-|                                                                       |
-| getwd()                                                               |
+ #Set working directory                                                
+                                                                       
+ setwd("path/to/working/directory/")                                   
+                                                                       
+ #Check if it has changed to desired path                              
+                                                                       
+ getwd()                                                               
 ```
 
 ![](images/media/image12.png)
 
--   Save the R script as Single_Cell_RNASeq_Analysis.R : **File \>
-    > Save**
+-   Save the R script as Single_Cell_RNASeq_Analysis.R : **File \>Save**
 
 -   Download data in the same directory using the following link:
-    > [[https://drive.google.com/drive/folders/1wVBsd5x6BTrvi6048EQLo1U_xfXjIWh1?usp=sharing]{.underline}](https://drive.google.com/drive/folders/1wVBsd5x6BTrvi6048EQLo1U_xfXjIWh1?usp=sharing)
+    > [[https://drive.google.com/drive/folders/1wVBsd5x6BTrvi6048EQLo1U_xfXjIWh1?usp=sharing]](https://drive.google.com/drive/folders/1wVBsd5x6BTrvi6048EQLo1U_xfXjIWh1?usp=sharing)
 
 -   Your working directory should look like this:
 
@@ -97,17 +88,13 @@ Open RStudio and install the following packages listed below one by one.
 **3.4 Load R packages using library() function**
 
 ```r
-| library(Seurat)                                                       |
-|                                                                       |
-| library(tidyverse)                                                    |
-|                                                                       |
-| library(Matrix)                                                       |
-|                                                                       |
-| library(RCurl)                                                        |
-|                                                                       |
-| library(scales)                                                       |
-|                                                                       |
-| library(cowplot)                                                      |
+#Load libraries
+library(Seurat)                                                       
+library(tidyverse)                                                                                                                    
+library(Matrix)                                                      
+library(RCurl)                                                       
+library(scales)                                                      
+library(cowplot)                                                     
 ```
 
 4.  **Loading Single-Cell RNA-Seq Count Data**
@@ -122,7 +109,7 @@ sequencing data which are as follows:
 
 -   **matrix.mtx -** Text file containing the count value matrix where geneIDs are specified by rows and cell barcodes are specified by columns.
 
-We can see them inside 3rd_INDO_VIETNAM_WORKSHOP/Data/b03st08/
+We can see them inside 3rd_INDO_VIETNAM_WORKSHOP/Data/b08st05/
 folder:![](images/media/image4.png)
 
 These files can be read into R using various functions including:
@@ -135,117 +122,91 @@ These files can be read into R using various functions including:
 
 -   Reading single-sample
 
-+-----------------------------------------------------------------------+
-| #Read in sample directory to create sparse matrix                     |
-|                                                                       |
-| seurat_data\<- read10X("data.dir = Data/b04st01")                     |
-|                                                                       |
-| \# Creating the Seurat object                                         |
-|                                                                       |
-| seurat_obj \<- CreateSeuratObject(counts = seurat_data, min.features  |
-| = 100)                                                                |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Read in sample directory to create sparse matrix                     
+                                                                       
+ seurat_data\<- read10X("data.dir = Data/b08st05")                     
+                                                                       
+ \# Creating the Seurat object                                         
+                                                                       
+ seurat_obj \<- CreateSeuratObject(counts = seurat_data, min.features  = 100)                                                                
+```
 
 -   Reading into multiple samples using for loop
 
-+-----------------------------------------------------------------------+
-| #set working directory                                                |
-|                                                                       |
-| setwd("E:/3rd_INDO-VIETNAM_WORKSHOP/Data/")                           |
-|                                                                       |
-| #Looping through each sample directory to create a final Seurat       |
-| object                                                                |
-|                                                                       |
-| for (file in c(\"b08st05\", \"b08st06\",\"b14st04\",\"b14st05\")){    |
-|                                                                       |
-| seurat_data \<- Read10X(data.dir = file))                             |
-|                                                                       |
-| seurat_obj \<- CreateSeuratObject(counts = seurat_data,               |
-|                                                                       |
-| min.features = 100,                                                   |
-|                                                                       |
-| project = file)                                                       |
-|                                                                       |
-| assign(file, seurat_obj)                                              |
-|                                                                       |
-| }                                                                     |
-|                                                                       |
-| head(seurat_obj@meta.data)                                            |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #set working directory                                                
+                                                                       
+ setwd("E:/3rd_INDO-VIETNAM_WORKSHOP/Data/")                           
+                                                                       
+ #Looping through each sample directory to create a final Seurat object                                                                
+                                                                       
+ for (file in c(\"b08st05\", \"b08st06\",\"b14st04\",\"b14st05\")){                                                                        
+    seurat_data \<- Read10X(data.dir = file))                             
+    seurat_obj \<- CreateSeuratObject(counts = seurat_data,               
+                                      min.features = 100,                                                   
+                                      project = file)                                                       
+    assign(file, seurat_obj)                                                                                                                  
+ }                                                                     
+                                                                       
+ head(seurat_obj@meta.data)                                            
+```
 
 **Note:** *The min.features argument specifies the minimum number of
 genes that need to be detected per cell.*
 
-+-----------------------------------------------------------------------+
-| [orig.ident nCount_RNA nFeature_RNA]{.mark}                           |
-|                                                                       |
-| [b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC AAGACATGC 553 148]{.mark}      |
-|                                                                       |
-| [b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC CTACAGAAC 964 381]{.mark}      |
-|                                                                       |
-| [b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC ATCTCCACA 3633 1417]{.mark}    |
-|                                                                       |
-| [b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT CCTGAGCAA 234 124]{.mark}      |
-|                                                                       |
-| [b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT ATTATTACC 147 117]{.mark}      |
-|                                                                       |
-| [b08st05_TCAGGAGGA_GACCTTAGA_AAAGTCATT TCAGGAGGA 295 101]{.mark}      |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ [orig.ident nCount_RNA nFeature_RNA]{.mark}                                                                                                
+ [b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC AAGACATGC 553 148]{.mark}                                                                           
+ [b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC CTACAGAAC 964 381]{.mark}                                                                           
+ [b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC ATCTCCACA 3633 1417]{.mark}                                                                         
+ [b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT CCTGAGCAA 234 124]{.mark}                                                                           
+ [b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT ATTATTACC 147 117]{.mark}                                                                           
+ [b08st05_TCAGGAGGA_GACCTTAGA_AAAGTCATT TCAGGAGGA 295 101]{.mark}      
+```
 
 Notice that the orig.ident column contains the first 9 nucleotide
 sequence from the UMI tag instead it should contain the original sample
 identity. Assign sample identity to orig.ident manually using the
 following command:
 
-+-----------------------------------------------------------------------+
-| #Manually assign orig.ident                                           |
-|                                                                       |
-| b08st05\$orig.ident \<- \"b08st05\"                                   |
-|                                                                       |
-| b08st06\$orig.ident \<- \"b08st06\"                                   |
-|                                                                       |
-| b14st04\$orig.ident \<- \"b14st04\"                                   |
-|                                                                       |
-| b14st05\$orig.ident \<- \"b14st05\"                                   |
-|                                                                       |
-| #Merge individual seurat object into one large object                 |
-|                                                                       |
-| merged_seurat \<- merge(x = b08st05, y = list(b08st06,b14st04,        |
-| b14st05),add.cell.ids = c(\"b08st05\",                                |
-| \"b08st06\",\"b14st04\",\"b14st05\"))                                 |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Manually assign orig.ident                                           
+                                                                       
+ b08st05\$orig.ident \<- \"b08st05\"                                   
+                                                                       
+ b08st06\$orig.ident \<- \"b08st06\"                                   
+                                                                       
+ b14st04\$orig.ident \<- \"b14st04\"                                   
+                                                                       
+ b14st05\$orig.ident \<- \"b14st05\"                                   
+                                                                       
+ #Merge individual seurat object into one large object                 
+                                                                       
+ merged_seurat \<- merge(x = b08st05, 
+                        y = list(b08st06,b14st04,b14st05),
+                        add.cell.ids = c(\"b08st05\", \"b08st06\",\"b14st04\",\"b14st05\"))                                 
+```
 
 After creating the seurat object the Global R environment will look
 something like this:
 
 Let's have a quick look at our metadata:
 
-  -----------------------------------------------------------------------
+```r
   head(merged_seurat@meta.data)
-  -----------------------------------------------------------------------
-
-  -----------------------------------------------------------------------
+```
 
 ![](images/media/image7.png)
 
-+-----------------------------------------------------------------------+
-| [ orig.ident nCount_RNA nFeature_RNA]{.mark}                          |
-|                                                                       |
-| [b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC b08st05 553 148]{.mark}        |
-|                                                                       |
-| [b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC b08st05 964 381]{.mark}        |
-|                                                                       |
-| [b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC b08st05 3633 1417]{.mark}      |
-|                                                                       |
-| [b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT b08st05 234 124]{.mark}        |
-|                                                                       |
-| [b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT b08st05 147 117]{.mark}        |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ [ orig.ident nCount_RNA nFeature_RNA]{.mark}                                                                                      
+ [b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC b08st05 553 148]{.mark}                                                                             
+ [b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC b08st05 964 381]{.mark}                                                                             
+ [b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC b08st05 3633 1417]{.mark}                                                                           
+ [b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT b08st05 234 124]{.mark}                                                                             
+ [b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT b08st05 147 117]{.mark}        
+```
 
 Do you know what these columns of metadata signifies ?
 
@@ -262,13 +223,9 @@ used above with the merge() function).*
 The other important slot of Seurat Object is \@assays which stores the
 raw count matrix, as well as downstream normalised/transformed data. We
 can see that currently it has only the count data, called \$RNA.
-
-  -----------------------------------------------------------------------
+```r
   merged_seurat@assays
-  -----------------------------------------------------------------------
-
-  -----------------------------------------------------------------------
-
+```
 +-----------------------------------------------------------------------+
 | [\$RNA]{.mark}                                                        |
 |                                                                       |
