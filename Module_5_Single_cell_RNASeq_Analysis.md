@@ -85,8 +85,7 @@ Open RStudio and install the following packages listed below one by one.
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image12.png){width="6.0in"
-height="0.2604166666666667in"}
+![](images/media/image12.png)
 
 -   Save the R script as Single_Cell_RNASeq_Analysis.R : **File \>
     > Save**
@@ -96,8 +95,7 @@ height="0.2604166666666667in"}
 
 -   Your working directory should look like this:
 
-![](images/media/image1.png){width="4.645833333333333in"
-height="1.90625in"}
+![](images/media/image1.png)
 
 **3.4 Load R packages using library() function**
 
@@ -122,30 +120,20 @@ After quantification, we obtain three files for each sample irrespective
 of the pipeline used for the processing of single-cell RNA-seq
 sequencing data which are as follows:
 
--   **barcodes.tsv -** Text file containing all the cell barcodes for
-    > that sample.
+-   **barcodes.tsv -** Text file containing all the cell barcodes for that sample.
 
--   **features.tsv -** Text file containing the gene id and gene
-    > symbols. The order of these genes corresponds to the order of rows
-    > in matrix.mtx.
+-   **features.tsv -** Text file containing the gene id and gene symbols. The order of these genes corresponds to the order of rows in matrix.mtx.
 
--   **matrix.mtx -** Text file containing the count value matrix where
-    > geneIDs are specified by rows and cell barcodes are specified by
-    > columns.
+-   **matrix.mtx -** Text file containing the count value matrix where geneIDs are specified by rows and cell barcodes are specified by columns.
 
 We can see them inside 3rd_INDO_VIETNAM_WORKSHOP/Data/b03st08/
-folder:![](images/media/image4.png){width="6.0in"
-height="1.3297867454068242in"}
+folder:![](images/media/image4.png)
 
 These files can be read into R using various functions including:
 
--   **readMM( )** : This function from the Matrix package loads
-    > individual matrices and then combines them to form a sparse
-    > matrix.
+-   **readMM( )** : This function from the Matrix package loads individual matrices and then combines them to form a sparse matrix.
 
--   **Read10X( )** : This function from the Seurat package uses the
-    > sample directory as input instead of individual matrices and then
-    > combines them into a sparse matrix for you.
+-   **Read10X( )** : This function from the Seurat package uses the sample directory as input instead of individual matrices and then combines them into a sparse matrix for you.
 
 *We will be using the read10X( ) function to load in our data.*
 
@@ -246,8 +234,7 @@ Let's have a quick look at our metadata:
 
   -----------------------------------------------------------------------
 
-![](images/media/image7.png){width="6.036458880139983in"
-height="2.408779527559055in"}
+![](images/media/image7.png)
 
 +-----------------------------------------------------------------------+
 | [ orig.ident nCount_RNA nFeature_RNA]{.mark}                          |
@@ -270,8 +257,7 @@ Do you know what these columns of metadata signifies ?
 
 -   nCount_RNA: It is the total number of UMIs detected in each cell.
 
--   nFeature_RNA: It is the total number of unique genes detected in
-    > each cell.
+-   nFeature_RNA: It is the total number of unique genes detected in each cell.
 
 **Note**: *We can see that the droplet/cell ids, given in the row names
 of this table, have prefixes added (based on the add.cell.ids option we
@@ -356,8 +342,7 @@ the percentage of reads mapping to mitochondrial genes.
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image15.png){width="3.2239588801399823in"
-height="2.28991469816273in"}
+![](images/media/image15.png)
 
 +-----------------------------------------------------------------------+
 | #Visualize number of reads per cell                                   |
@@ -367,8 +352,7 @@ height="2.28991469816273in"}
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image19.png){width="3.651042213473316in"
-height="2.5851049868766403in"}
+![](images/media/image19.png)
 
 +-----------------------------------------------------------------------+
 | #Visualise percentage of mitochondrial reads per cell                 |
@@ -378,8 +362,7 @@ height="2.5851049868766403in"}
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image20.png){width="3.7604166666666665in"
-height="2.6845483377077866in"}
+![](images/media/image20.png)
 
 **5.3 Filtering Cells**
 
@@ -398,8 +381,7 @@ between the QC metrics:
 
 Notice that the cells with high percent.mt also have very low read
 counts which is indicative of the low quality cells and will be filtered
-out. ![](images/media/image16.png){width="3.736126421697288in"
-height="2.6494411636045494in"}
+out. ![](images/media/image16.png)
 
 +-----------------------------------------------------------------------+
 | \# To visualize the relationship between total reads per cell and     |
@@ -410,8 +392,7 @@ height="2.6494411636045494in"}
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image8.png){width="4.09375in"
-height="2.92257217847769in"}
+![](images/media/image8.png)
 
 In the above graph it shows a strong positive correlation of total reads
 with the total genes. Would you expect that ? The answer is yes. It
@@ -424,8 +405,7 @@ out outlier cells:
 
 -   nFeature_RNA \< 2500 (exclude doublets)
 
--   percent.mt (mitochondrial reads percentage/cell) \< 20%(exclude
-    > non-viable cells)
+-   percent.mt (mitochondrial reads percentage/cell) \< 20%(exclude non-viable cells)
 
 +-----------------------------------------------------------------------+
 | #define condition for filtering                                       |
@@ -588,8 +568,7 @@ Let us visualize the PCA plot using DimPlot function:
 
   -----------------------------------------------------------------------
 
-> ![](images/media/image22.png){width="3.901042213473316in"
-> height="2.4808038057742783in"}
+> ![](images/media/image22.png)
 
 Seurat clusters cells based on the top variable principal components and
 hence represent a robust compression of the dataset. The next question
@@ -618,8 +597,7 @@ the results easier for humans to visualize and interpret.
 
 We will run UMAP and tSNE using the number of dimensions chosen before
 from Elbowplot i.e. 10.
-![](images/media/image5.png){width="3.494792213473316in"
-height="2.2239588801399823in"}
+![](images/media/image5.png)
 
 +-----------------------------------------------------------------------+
 | #Run UMAP                                                             |
@@ -697,9 +675,7 @@ Let us have a look at the UMAP and tSNE plots:
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image6.png){width="3.3630949256342957in"
-height="2.3541666666666665in"}![](images/media/image18.png){width="3.6838353018372705in"
-height="2.3541666666666665in"}
+![](images/media/image6.png)![](images/media/image18.png)
 
 **Note:** *To visualise UMAP for each of the sample use split.by =
 "orig.ident" in DimPlot()*
@@ -712,8 +688,7 @@ height="2.3541666666666665in"}
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image23.png){width="6.372199256342957in"
-height="2.0280030621172354in"}
+![](images/media/image23.png)
 
 In the above UMAP we can see that all the samples are completely
 overlapping with each other which indicates that there is no batch
@@ -910,8 +885,7 @@ resolution to see how clustering changes with resolution.
 
 **0.4 0.7 1**
 
-![](images/media/image3.png){width="6.130208880139983in"
-height="1.9549857830271216in"}
+![](images/media/image3.png)
 
 Do you see a pattern in the above graph? There is an increase in total
 clusters with increase in resolution. For the simplicity of the analysis
@@ -943,8 +917,7 @@ function.
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image14.png){width="5.990754593175853in"
-height="3.392354549431321in"}
+![](images/media/image14.png)
 
 Now we have the top 20 marker genes for each cluster. Save this file in
 .csv format.
@@ -967,8 +940,7 @@ case, we are plotting the top 20 markers for each cluster.
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image17.png){width="3.3125in"
-height="4.708333333333333in"}
+![](images/media/image17.png)
 
 Public Databases for manual annotation:
 
@@ -1023,8 +995,7 @@ to natural killer cells. You can repeat the same for all other cell
 types or alternatively can visualise the expression of marker genes
 using DotPlot(). Before that let us rename our clusters with the new
 cell types using RenameIdents() function.
-![](images/media/image9.png){width="4.998289588801399in"
-height="2.131305774278215in"}
+![](images/media/image9.png)
 
 +-----------------------------------------------------------------------+
 | merged_seurat\$CellType \<- recode(merged_seurat\$seurat_clusters,    |
@@ -1056,8 +1027,7 @@ height="2.131305774278215in"}
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image13.png){width="5.90625in"
-height="2.4479166666666665in"}
+![](images/media/image13.png)
 
 +-----------------------------------------------------------------------+
 | #Plotting final UMAP after cell annotation                            |
@@ -1066,8 +1036,7 @@ height="2.4479166666666665in"}
 +=======================================================================+
 +-----------------------------------------------------------------------+
 
-![](images/media/image21.png){width="4.130208880139983in"
-height="2.404440069991251in"}
+![](images/media/image21.png)
 
 Save the final labelled Seurat object:
 
@@ -1226,8 +1195,7 @@ The top 10 DE genes in Healthy vs Infected Natural Killer cells:
 In Seurat default differential expression, each cell is treated as a
 separate observation which can inflate p-values. Hence it is recommended
 to do pseudobulk analysis.
-![](images/media/image10.png){width="5.140625546806649in"
-height="2.774453193350831in"}
+![](images/media/image10.png)
 
 -   **Pseudobulk Analysis**
 
@@ -1293,10 +1261,10 @@ identifying cell types.
 +-----------------------------------------------------------------------+
 
 The top 10 DE genes in Healthy vs Infected Natural Killer
-cells:![](images/media/image11.png){width="6.005208880139983in"
-height="2.69464457567804in"}
+cells:![](images/media/image11.png)
 
 Do you find any differences between the results from Seurat DE and
 Pseudobulk analysis ?
+
 
 
