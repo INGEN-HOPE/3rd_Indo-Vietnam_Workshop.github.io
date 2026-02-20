@@ -340,7 +340,8 @@ Let us quickly see the number of cells we are retaining:
 ```r
   table(merged_seurat\$keep)
 ```
-```r
+###Output:
+```
  FALSE TRUE                                                                                                                              
  3743 8517                                                             
 ```
