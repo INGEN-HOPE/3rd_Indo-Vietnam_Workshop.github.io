@@ -124,11 +124,11 @@ These files can be read into R using various functions including:
 ```r
  #Read in sample directory to create sparse matrix                     
                                                                        
- seurat_data\<- read10X("data.dir = Data/b08st05")                     
+ seurat_data <- read10X("data.dir = Data/b08st05")                     
                                                                        
- \# Creating the Seurat object                                         
+ # Creating the Seurat object                                         
                                                                        
- seurat_obj \<- CreateSeuratObject(counts = seurat_data, min.features  = 100)                                                                
+ seurat_obj <- CreateSeuratObject(counts = seurat_data, min.features  = 100)                                                                
 ```
 
 -   Reading into multiple samples using for loop
@@ -140,9 +140,9 @@ These files can be read into R using various functions including:
                                                                        
  #Looping through each sample directory to create a final Seurat object                                                                
                                                                        
- for (file in c(\"b08st05\", \"b08st06\",\"b14st04\",\"b14st05\")){                                                                        
-    seurat_data \<- Read10X(data.dir = file))                             
-    seurat_obj \<- CreateSeuratObject(counts = seurat_data,               
+ for (file in c("b08st05", "b08st06","b14st04","b14st05")){                                                                        
+    seurat_data <- Read10X(data.dir = file))                             
+    seurat_obj <- CreateSeuratObject(counts = seurat_data,               
                                       min.features = 100,                                                   
                                       project = file)                                                       
     assign(file, seurat_obj)                                                                                                                  
@@ -172,16 +172,16 @@ following command:
 ```r
 
  #Manually assign orig.ident                                           
- \"b08st05\$orig.ident \<- \"b08st05\"                                                                           
- b08st06\$orig.ident \<- \"b08st06\"                                                                                                     
- b14st04\$orig.ident \<- \"b14st04\"                                                                                                       
- b14st05\$orig.ident \<- \"b14st05\"                                   
+ b08st05$orig.ident <- "b08st05"                                                                           
+ b08st06$orig.ident <- "b08st06"                                                                                                     
+ b14st04$orig.ident <- "b14st04"                                                                                                       
+ b14st05$orig.ident <- "b14st05"                                   
                                                                        
  #Merge individual seurat object into one large object                 
                                                                        
- merged_seurat \<- merge(x = b08st05, 
+ merged_seurat <- merge(x = b08st05, 
                         y = list(b08st06,b14st04,b14st05),
-                        add.cell.ids = c(\"b08st05\", \"b08st06\",\"b14st04\",\"b14st05\"))                                 
+                        add.cell.ids = c("b08st05", "b08st06","b14st04","b14st05"))                                 
 ```
 
 After creating the seurat object the Global R environment will look
@@ -223,94 +223,65 @@ can see that currently it has only the count data, called \$RNA.
 ```r
   merged_seurat@assays
 ```
-+-----------------------------------------------------------------------+
-| [\$RNA]{.mark}                                                        |
-|                                                                       |
-| [Assay (v5) data with 70761 features for 12260 cells]{.mark}          |
-|                                                                       |
-| [First 10 features:]{.mark}                                           |
-|                                                                       |
-| [DDX11L2, DDX11L1, WASH7P, MIR6859-1, MIR1302-2HG, MIR1302-2,         |
-| FAM138A, OR4G4P, ENSG00000290826,]{.mark}                             |
-|                                                                       |
-| [OR4G11P]{.mark}                                                      |
-|                                                                       |
-| [Layers:]{.mark}                                                      |
-|                                                                       |
-| [counts.b08st05, counts.b08st06, counts.b14st04,                      |
-| counts.b14st05]{.mark}                                                |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ $RNA                                                        
+ Assay (v5) data with 70761 features for 12260 cells       
+ First 10 features:DDX11L2, DDX11L1, WASH7P, MIR6859-1, MIR1302-2HG, MIR1302-2,         
+ FAM138A, OR4G4P, ENSG00000290826, OR4G11P                                                
+                                                                       
+ Layers:                                                    
+                                                                       
+ counts.b08st05, counts.b08st06, counts.b14st04,counts.b14st05                                             
+```
 
 5.  **Data QC: Filtering Cells using quality metrics**
 
 In this step we will filter out cells with high mitochondrial reads
-(\>20%) which is indicative of poor cell quality.
+(>20%) which is indicative of poor cell quality.
 
 **5.1. Presence of Mitochondrial Reads**
 
 Seurat provides an inbuilt function PercentageFeatureSet() to calculate
 the percentage of reads mapping to mitochondrial genes.
 
-  -----------------------------------------------------------------------
-  merged_seurat\[\[\"percent.mt\"\]\] \<-
-  PercentageFeatureSet(merged_seurat, pattern = \"\^MT-\")
-  -----------------------------------------------------------------------
+ ```r
+  merged_seurat[["percent.mt"]] <- PercentageFeatureSet(merged_seurat, pattern = "^MT-")
+```
 
-  -----------------------------------------------------------------------
-
-+-----------------------------------------------------------------------+
-| [ orig.ident nCount_RNA nFeature_RNA percent.mt]{.mark}               |
-|                                                                       |
-| [b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC b08st05 553 148                |
-| 68.53526]{.mark}                                                      |
-|                                                                       |
-| [b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC b08st05 964 381                |
-| 40.24896]{.mark}                                                      |
-|                                                                       |
-| [b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC b08st05 3633 1417              |
-| 13.07459]{.mark}                                                      |
-|                                                                       |
-| [b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT b08st05 234 124                |
-| 37.60684]{.mark}                                                      |
-|                                                                       |
-| [b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT b08st05 147 117                |
-| 14.28571]{.mark}                                                      |
-|                                                                       |
-| [b08st05_TCAGGAGGA_GACCTTAGA_AAAGTCATT b08st05 295 101                |
-| 45.08475]{.mark}                                                      |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ orig.ident nCount_RNA nFeature_RNA percent.mt
+                                                                       
+ b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC b08st05 553 148   68.53526                                                                
+ b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC b08st05 964 381   40.24896                    
+ b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC b08st05 3633 1417 13.07459                                                                             
+ b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT b08st05 234 124   37.60684                                                                             
+ b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT b08st05 147 117   14.28571                                                                             
+ b08st05_TCAGGAGGA_GACCTTAGA_AAAGTCATT b08st05 295 101   45.08475                                                     
+```
 
 **5.2 Visualising Counts**
 
-+-----------------------------------------------------------------------+
-| #Visualize number of genes per cell                                   |
-|                                                                       |
-| VlnPlot(merged_seurat, features = \"nFeature_RNA\", group.by =        |
-| \"orig.ident\")                                                       |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Visualize number of genes per cell                                   
+                                                                       
+ VlnPlot(merged_seurat, features = "nFeature_RNA", group.by = "orig.ident")                                                       
+```
 
 ![](images/media/image15.png)
 
-+-----------------------------------------------------------------------+
-| #Visualize number of reads per cell                                   |
-|                                                                       |
-| VlnPlot(merged_seurat, features = \"nCount_RNA\", group.by =          |
-| \"orig.ident\")                                                       |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Visualize number of reads per cell                                   
+                                                                       
+ VlnPlot(merged_seurat, features = "nCount_RNA", group.by = "orig.ident")                                                       
+```
 
 ![](images/media/image19.png)
 
-+-----------------------------------------------------------------------+
-| #Visualise percentage of mitochondrial reads per cell                 |
-|                                                                       |
-| VlnPlot(merged_seurat, features = \"percent.mt\", group.by =          |
-| \"orig.ident\")                                                       |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Visualise percentage of mitochondrial reads per cell              
+                                                                    
+ VlnPlot(merged_seurat, features = "percent.mt", group.by = "orig.ident")                                                       
+```
 
 ![](images/media/image20.png)
 
@@ -320,27 +291,23 @@ Based on the QC metrics, it is important to filter low quality cells
 before moving to the next step. So, let's look at the relationships
 between the QC metrics:
 
-+-----------------------------------------------------------------------+
-| #To visualize the relationship between total reads per cell and       |
-| mitochondrial reads percentage                                        |
-|                                                                       |
-| FeatureScatter(merged_seurat, feature1 = \"nCount_RNA\", feature2 =   |
-| \"percent.mt\", group.by = \"orig.ident\")                            |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #To visualize the relationship between total reads per cell and mitochondrial reads percentage                                        
+                                                                       
+ FeatureScatter(merged_seurat, feature1 = "nCount_RNA", 
+                               feature2 ="percent.mt", 
+                               group.by = "orig.ident")                            
+```
 
 Notice that the cells with high percent.mt also have very low read
 counts which is indicative of the low quality cells and will be filtered
 out. ![](images/media/image16.png)
 
-+-----------------------------------------------------------------------+
-| \# To visualize the relationship between total reads per cell and     |
-| total features (genes) per cell                                       |
-|                                                                       |
-| FeatureScatter(merged_seurat, feature1 = \"nCount_RNA\", feature2 =   |
-| \"nFeature_RNA\", group.by = \"orig.ident\")                          |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+# To visualize the relationship between total reads per cell and total features (genes) per cell                                     
+                                                                     
+ FeatureScatter(merged_seurat, feature1 = "nCount_RNA", feature2 = "nFeature_RNA", group.by = "orig.ident")                          
+```
 
 ![](images/media/image8.png)
 
@@ -351,40 +318,33 @@ reflects the capture of diverse RNA molecules in our dataset.
 After looking at the QC metrics we will use some thresholds to filter
 out outlier cells:
 
--   nFeature_RNA(No. of genes/cell) \> 100 (exclude poor quality cells)
+-   nFeature_RNA(No. of genes/cell) > 100 (exclude poor quality cells)
 
--   nFeature_RNA \< 2500 (exclude doublets)
+-   nFeature_RNA < 2500 (exclude doublets)
 
--   percent.mt (mitochondrial reads percentage/cell) \< 20%(exclude non-viable cells)
+-   percent.mt (mitochondrial reads percentage/cell) < 20%(exclude non-viable cells)
 
-+-----------------------------------------------------------------------+
-| #define condition for filtering                                       |
-|                                                                       |
-| cells_to_filter \<- rownames(subset(merged_seurat, subset =           |
-| nFeature_RNA \> 100 & nFeature_RNA \< 2500 & percent.mt \<            |
-| 20)@meta.data)                                                        |
-|                                                                       |
-| \# add this information to the metadata                               |
-|                                                                       |
-| merged_seurat\$keep \<-rownames(merged_seurat@meta.data) %in%         |
-| cells_to_filter                                                       |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #define condition for filtering                                       
+                                                                       
+ cells_to_filter <- rownames(subset(merged_seurat, 
+ subset = nFeature_RNA > 100 & nFeature_RNA < 2500 & percent.mt <20)@meta.data)
+                                                                       
+ # add this information to the metadata                               
+                                                                       
+ merged_seurat$keep <-rownames(merged_seurat@meta.data) %in% cells_to_filter                                                       
+```
 
 Let us quickly see the number of cells we are retaining:
 
-  -----------------------------------------------------------------------
+```r
   table(merged_seurat\$keep)
-  -----------------------------------------------------------------------
+```
+```r
+ FALSE TRUE                                                                                                                              
+ 3743 8517                                                             
+```
 
-  -----------------------------------------------------------------------
-
-+-----------------------------------------------------------------------+
-| FALSE TRUE                                                            |
-|                                                                       |
-| 3743 8517                                                             |
-+=======================================================================+
-+-----------------------------------------------------------------------+
 
 Here, a total of 3743 cells did not pass the filter and will be removed
 from further analysis.
