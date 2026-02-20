@@ -56,13 +56,12 @@ Open RStudio and install the following packages listed below one by one.
  install.packages("devtools")                                                                                                               
  install.packages("BiocManager")                                                                                                            
  install.packages("Seurat")                                                                                                                 
- BiocManager::install("DESeq2")                                      |
+ BiocManager::install("DESeq2")                                      
 ```
 
 **3.3 Set up working directory and download sample count matrix**
 
--   Open New R script and set the working directory using setwd()
-    > command:
+-   Open New R script and set the working directory using setwd() command:
 
 ```r
  #Set working directory                                                
@@ -156,13 +155,13 @@ These files can be read into R using various functions including:
 genes that need to be detected per cell.*
 
 ```r
- [orig.ident nCount_RNA nFeature_RNA]{.mark}                                                                                                
- [b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC AAGACATGC 553 148]{.mark}                                                                           
- [b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC CTACAGAAC 964 381]{.mark}                                                                           
- [b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC ATCTCCACA 3633 1417]{.mark}                                                                         
- [b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT CCTGAGCAA 234 124]{.mark}                                                                           
- [b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT ATTATTACC 147 117]{.mark}                                                                           
- [b08st05_TCAGGAGGA_GACCTTAGA_AAAGTCATT TCAGGAGGA 295 101]{.mark}      
+                orig.ident nCount_RNA nFeature_RNA                                                                                             
+ b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC AAGACATGC 553 148                                                                        
+ b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC CTACAGAAC 964 381                                                                           
+ b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC ATCTCCACA 3633 1417                                                                         
+ b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT CCTGAGCAA 234 124                                                                           
+ b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT ATTATTACC 147 117                                                                          
+ b08st05_TCAGGAGGA_GACCTTAGA_AAAGTCATT TCAGGAGGA 295 101      
 ```
 
 Notice that the orig.ident column contains the first 9 nucleotide
@@ -171,14 +170,11 @@ identity. Assign sample identity to orig.ident manually using the
 following command:
 
 ```r
+
  #Manually assign orig.ident                                           
-                                                                       
- b08st05\$orig.ident \<- \"b08st05\"                                   
-                                                                       
- b08st06\$orig.ident \<- \"b08st06\"                                   
-                                                                       
- b14st04\$orig.ident \<- \"b14st04\"                                   
-                                                                       
+ \"b08st05\$orig.ident \<- \"b08st05\"                                                                           
+ b08st06\$orig.ident \<- \"b08st06\"                                                                                                     
+ b14st04\$orig.ident \<- \"b14st04\"                                                                                                       
  b14st05\$orig.ident \<- \"b14st05\"                                   
                                                                        
  #Merge individual seurat object into one large object                 
@@ -200,12 +196,12 @@ Let's have a quick look at our metadata:
 ![](images/media/image7.png)
 
 ```r
- [ orig.ident nCount_RNA nFeature_RNA]{.mark}                                                                                      
- [b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC b08st05 553 148]{.mark}                                                                             
- [b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC b08st05 964 381]{.mark}                                                                             
- [b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC b08st05 3633 1417]{.mark}                                                                           
- [b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT b08st05 234 124]{.mark}                                                                             
- [b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT b08st05 147 117]{.mark}        
+                                orig.ident nCount_RNA nFeature_RNA                                                                            
+b08st05_AAGACATGC_ACTTCGAGC_AAAGAGGCC b08st05     553          148                                                                          
+b08st05_CTACAGAAC_CACAAAGGC_AAAGAGGCC b08st05     964          381                                                                             
+b08st05_ATCTCCACA_CACCTACCC_AAAGAGGCC b08st05     3633        1417                                                                           
+b08st05_CCTGAGCAA_AATCCTGAA_AAAGTCATT b08st05     234          124                                                                             
+b08st05_ATTATTACC_ACGCGAAGC_AAAGTCATT b08st05     147          117        
 ```
 
 Do you know what these columns of metadata signifies ?
@@ -223,6 +219,7 @@ used above with the merge() function).*
 The other important slot of Seurat Object is \@assays which stores the
 raw count matrix, as well as downstream normalised/transformed data. We
 can see that currently it has only the count data, called \$RNA.
+
 ```r
   merged_seurat@assays
 ```
