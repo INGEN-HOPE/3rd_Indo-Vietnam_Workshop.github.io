@@ -6,8 +6,7 @@
 
 1.  **Basic Workflow**
 
-> ![](images/media/image2.png){width="5.813288495188101in"
-> height="1.2949475065616798in"}
+> ![](images/media/image2.png)
 
 After quantification of the gene expression, we obtain three matrices
 which need to be imported into the R environment for further QC steps
@@ -1299,3 +1298,4 @@ height="2.69464457567804in"}
 
 Do you find any differences between the results from Seurat DE and
 Pseudobulk analysis ?
+
