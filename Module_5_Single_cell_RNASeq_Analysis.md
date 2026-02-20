@@ -47,8 +47,7 @@ Open RStudio and install the following packages listed below one by one.
 
 -   All the package names listed below are case sensitive!
 
-+-----------------------------------------------------------------------+
-+=======================================================================+
+```r
 | install.packages("tidyverse")                                         |
 |                                                                       |
 | install.packages("Matrix")                                            |
@@ -65,16 +64,15 @@ Open RStudio and install the following packages listed below one by one.
 |                                                                       |
 | install.packages("Seurat")                                            |
 |                                                                       |
-| BiocManager::install(\"DESeq2\")                                      |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+| BiocManager::install("DESeq2")                                      |
+```
 
 **3.3 Set up working directory and download sample count matrix**
 
 -   Open New R script and set the working directory using setwd()
     > command:
 
-+-----------------------------------------------------------------------+
+```r
 | #Set working directory                                                |
 |                                                                       |
 | setwd("path/to/working/directory/")                                   |
@@ -82,8 +80,7 @@ Open RStudio and install the following packages listed below one by one.
 | #Check if it has changed to desired path                              |
 |                                                                       |
 | getwd()                                                               |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```
 
 ![](images/media/image12.png)
 
@@ -99,7 +96,7 @@ Open RStudio and install the following packages listed below one by one.
 
 **3.4 Load R packages using library() function**
 
-+-----------------------------------------------------------------------+
+```r
 | library(Seurat)                                                       |
 |                                                                       |
 | library(tidyverse)                                                    |
@@ -111,8 +108,7 @@ Open RStudio and install the following packages listed below one by one.
 | library(scales)                                                       |
 |                                                                       |
 | library(cowplot)                                                      |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```
 
 4.  **Loading Single-Cell RNA-Seq Count Data**
 
