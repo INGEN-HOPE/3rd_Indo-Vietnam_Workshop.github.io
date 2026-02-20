@@ -43,12 +43,12 @@ Open RStudio and install the following packages listed below one by one.
 
 -   Install the packages in the order listed below.
 
--   When installing the following packages, if you are asked to select
-    > (a/s/n) or (y/n), please select "a" or \"y\" as applicable.
+-   When installing the following packages, if you are asked to select  (a/s/n) or (y/n), please select "a" or \"y\" as applicable.
 
 -   All the package names listed below are case sensitive!
 
 +-----------------------------------------------------------------------+
++=======================================================================+
 | install.packages("tidyverse")                                         |
 |                                                                       |
 | install.packages("Matrix")                                            |
@@ -1298,4 +1298,5 @@ height="2.69464457567804in"}
 
 Do you find any differences between the results from Seurat DE and
 Pseudobulk analysis ?
+
 
