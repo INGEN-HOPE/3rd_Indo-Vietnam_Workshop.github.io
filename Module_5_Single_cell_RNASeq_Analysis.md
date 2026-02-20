@@ -340,8 +340,9 @@ Let us quickly see the number of cells we are retaining:
 ```r
   table(merged_seurat\$keep)
 ```
-###Output:
-```
+```r
+#Output:
+
  FALSE TRUE                                                                                                                              
  3743 8517                                                             
 ```
@@ -350,93 +351,69 @@ Let us quickly see the number of cells we are retaining:
 Here, a total of 3743 cells did not pass the filter and will be removed
 from further analysis.
 
-+-----------------------------------------------------------------------+
-| #Remove cells with keep = FALSE                                       |
-|                                                                       |
-| merged_seurat \<- subset(merged_seurat, subset = keep)                |
-|                                                                       |
-| merged_seurat                                                         |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+#Remove cells with keep = FALSE                                       
+                                                                      
+merged_seurat <- subset(merged_seurat, subset = keep)                                                                    
+merged_seurat                                                        
+```
+```r
+#Output:
 
-+-----------------------------------------------------------------------+
-| An object of class Seurat                                             |
-|                                                                       |
-| 70761 features across 8517 samples within 1 assay                     |
-|                                                                       |
-| Active assay: RNA (70761 features, 0 variable features)               |
-|                                                                       |
-| 4 layers present: counts.b08st05, counts.b08st06, counts.b14st04,     |
-| counts.b14st05                                                        |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+ An object of class Seurat                                                                                                                 
+ 70761 features across 8517 samples within 1 assay                                                                                       
+ Active assay: RNA (70761 features, 0 variable features)                                                                                  
+ 4 layers present: counts.b08st05, counts.b08st06, counts.b14st04, counts.b14st05                                                        
+```
 
 **5.4 Data Normalisation**
 
 After getting our high quality cells it is important to normalize our
 data before cell clustering for accurate comparisons between cells.
 
-+-----------------------------------------------------------------------+
-| #Install glmGamPoi for faster estimation                              |
-|                                                                       |
-| BiocManager::install(\'glmGamPoi\')                                   |
-|                                                                       |
-| #Normalize data using SCtransform()                                   |
-|                                                                       |
-| merged_seurat \<- SCTransform(merged_seurat,                          |
-|                                                                       |
-| vars.to.regress = \"percent.mt\",                                     |
-|                                                                       |
-| variable.features.n = 3000)                                           |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Install glmGamPoi for faster estimation                              
+                                                                       
+ BiocManager::install('glmGamPoi')                                   
+                                                                       
+ #Normalize data using SCtransform()                                   
+                                                                       
+ merged_seurat <- SCTransform(merged_seurat,                          
+                              vars.to.regress = "percent.mt",                                     
+                              variable.features.n = 3000)                                           
+```
 
 **Note:** *variable.features.n takes the top variable features(genes).*
 
-+-----------------------------------------------------------------------+
-| An object of class Seurat                                             |
-|                                                                       |
-| 84847 features across 8517 samples within 2 assays                    |
-|                                                                       |
-| Active assay: SCT (14086 features, 3000 variable features)            |
-|                                                                       |
-| 3 layers present: counts, data, scale.data                            |
-|                                                                       |
-| 1 other assay present: RNA                                            |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+#Output:
+
+  An object of class Seurat                                                                    
+  84847 features across 8517 samples within 2 assays                    
+  Active assay: SCT (14086 features, 3000 variable features)            
+  3 layers present: counts, data, scale.data    
+  1 other assay present: RNA                                            
+```
 
 The normalised data is stored under \$SCT in the assay slot.
 
-  -----------------------------------------------------------------------
+```r
   merged_seurat@assays
-  -----------------------------------------------------------------------
+```
+```r
+#Output:
 
-  -----------------------------------------------------------------------
-
-+-----------------------------------------------------------------------+
-| \$RNA                                                                 |
-|                                                                       |
-| Assay (v5) data with 70761 features for 8517 cells                    |
-|                                                                       |
-| First 10 features:                                                    |
-|                                                                       |
-| DDX11L2, DDX11L1, WASH7P, MIR6859-1, MIR1302-2HG, MIR1302-2, FAM138A, |
-| OR4G4P, ENSG00000290826, OR4G11P                                      |
-|                                                                       |
-| Layers:                                                               |
-|                                                                       |
-| counts.b08st05, counts.b08st06, counts.b14st04, counts.b14st05        |
-|                                                                       |
-| \$SCT                                                                 |
-|                                                                       |
-| SCTAssay data with 14086 features for 8517 cells, and 4 SCTModel(s)   |
-|                                                                       |
-| Top 10 variable features:                                             |
-|                                                                       |
-| LYZ, CD74, CXCL8, GNLY, MALAT1, FTH1, C5AR1, S100A8, IGKC, IL1B       |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+ $RNA                                                                                                                                  
+ Assay (v5) data with 70761 features for 8517 cells                                                                                   
+ First 10 features: DDX11L2, DDX11L1, WASH7P, MIR6859-1, MIR1302-2HG, MIR1302-2, FAM138A, 
+ OR4G4P, ENSG00000290826, OR4G11P                                                                                                           
+ Layers:counts.b08st05, counts.b08st06, counts.b14st04, counts.b14st05        
+                                                                       
+ $SCT                                                                                                                                     
+ SCTAssay data with 14086 features for 8517 cells, and 4 SCTModel(s)                                                                     
+ Top 10 variable features:                                                                 
+ LYZ, CD74, CXCL8, GNLY, MALAT1, FTH1, C5AR1, S100A8, IGKC, IL1B       
+```
 
 **5.5 Dimensionality Reduction**
 
@@ -447,37 +424,25 @@ dimension of large datasets as in single-cell data where thousands of
 cells are pointing towards thousands of features making it a high
 multidimensional space.
 
-  -----------------------------------------------------------------------
-  merged_seurat \<- RunPCA(merged_seurat, features =
-  VariableFeatures(object = merged_seurat))
-  -----------------------------------------------------------------------
+ ```r
+  merged_seurat <- RunPCA(merged_seurat, features = VariableFeatures(object = merged_seurat))
+```
 
-  -----------------------------------------------------------------------
-
-+-----------------------------------------------------------------------+
-| \$pca                                                                 |
-|                                                                       |
-| A dimensional reduction object with key PC\_                          |
-|                                                                       |
-| Number of dimensions: 50                                              |
-|                                                                       |
-| Number of cells: 8517                                                 |
-|                                                                       |
-| Projected dimensional reduction calculated: FALSE                     |
-|                                                                       |
-| Jackstraw run: FALSE                                                  |
-|                                                                       |
-| Computed using assay: SCT                                             |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+|$pca                                                                                                                                   
+ A dimensional reduction object with key PC                                                                                          
+ Number of dimensions: 50                                                                                                                 
+ Number of cells: 8517                                                                                                                    
+ Projected dimensional reduction calculated: FALSE                                                                                        
+ Jackstraw run: FALSE                                                                                                                     
+ Computed using assay: SCT                                             
+```
 
 Let us visualize the PCA plot using DimPlot function:
 
-  -----------------------------------------------------------------------
-  DimPlot(merged_seurat, reduction = \"pca\", group.by=\"orig.ident\")
-  -----------------------------------------------------------------------
-
-  -----------------------------------------------------------------------
+```r
+  DimPlot(merged_seurat, reduction = "pca", group.by="orig.ident")
+```
 
 > ![](images/media/image22.png)
 
@@ -492,11 +457,10 @@ PCs.
 
 **Note:** *We later used these dimensions (1:10) to cluster the cells.*
 
-  -----------------------------------------------------------------------
+```r
   ElbowPlot(merged_seurat)
-  -----------------------------------------------------------------------
-
-  -----------------------------------------------------------------------
+```
+![](images/media/image5.png)
 
 **5.5.2 Non-Linear Dimensionality Reduction (UMAP/tSNE)**
 
@@ -508,96 +472,71 @@ the results easier for humans to visualize and interpret.
 
 We will run UMAP and tSNE using the number of dimensions chosen before
 from Elbowplot i.e. 10.
-![](images/media/image5.png)
 
-+-----------------------------------------------------------------------+
-| #Run UMAP                                                             |
-|                                                                       |
-| merged_seurat \<- RunUMAP(merged_seurat, dims = 1:10)                 |
-|                                                                       |
-| #Run tSNE                                                             |
-|                                                                       |
-| merged_seurat \<- RunTSNE(merged_seurat, dims = 1:10)                 |
-|                                                                       |
-| merged_seurat@reductions                                              |
-+=======================================================================+
-+-----------------------------------------------------------------------+
 
-+-----------------------------------------------------------------------+
-| \$pca                                                                 |
-|                                                                       |
-| A dimensional reduction object with key PC\_                          |
-|                                                                       |
-| Number of dimensions: 50                                              |
-|                                                                       |
-| Number of cells: 8517                                                 |
-|                                                                       |
-| Projected dimensional reduction calculated: FALSE                     |
-|                                                                       |
-| Jackstraw run: FALSE                                                  |
-|                                                                       |
-| Computed using assay: SCT                                             |
-|                                                                       |
-| \$umap                                                                |
-|                                                                       |
-| A dimensional reduction object with key umap\_                        |
-|                                                                       |
-| Number of dimensions: 2                                               |
-|                                                                       |
-| Number of cells: 8517                                                 |
-|                                                                       |
-| Projected dimensional reduction calculated: FALSE                     |
-|                                                                       |
-| Jackstraw run: FALSE                                                  |
-|                                                                       |
-| Computed using assay: SCT                                             |
-|                                                                       |
-| \$tsne                                                                |
-|                                                                       |
-| A dimensional reduction object with key tSNE\_                        |
-|                                                                       |
-| Number of dimensions: 2                                               |
-|                                                                       |
-| Number of cells: 8517                                                 |
-|                                                                       |
-| Projected dimensional reduction calculated: FALSE                     |
-|                                                                       |
-| Jackstraw run: FALSE                                                  |
-|                                                                       |
-| Computed using assay: SCT                                             |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Run UMAP                                                             
+                                                                       
+ merged_seurat <- RunUMAP(merged_seurat, dims = 1:10)                 
+                                                                       
+ #Run tSNE                                                             
+                                                                       
+ merged_seurat <- RunTSNE(merged_seurat, dims = 1:10)                 
+                                                                       
+ merged_seurat@reductions                                              
+```
+
+```r
+#Output:
+
+$pca                                                                                                                                      
+A dimensional reduction object with key PC                                                                      
+Number of dimensions: 50                                                                                                                    Number of cells: 8517                                                                                                                    
+Projected dimensional reduction calculated: FALSE                                                                                           Jackstraw run: FALSE                                                  
+Computed using assay: SCT                                             
+                                                                       
+$umap                                                                                                                                     
+A dimensional reduction object with key umap\_                                                                                               
+Number of dimensions: 2                                               
+Number of cells: 8517                                                 
+Projected dimensional reduction calculated: FALSE                     
+Jackstraw run: FALSE                                                  
+Computed using assay: SCT                                             
+                                                                       
+$tsne                                                                
+A dimensional reduction object with key tSNE\_                        
+Number of dimensions: 2                                               
+Number of cells: 8517                                                 
+Projected dimensional reduction calculated: FALSE                     
+Jackstraw run: FALSE                                                  
+Computed using assay: SCT                                             
+```
 
 Notice that PCA has 50 dimensions while UMAP and tSNE have only two
 dimensions.
 
 Let us have a look at the UMAP and tSNE plots:
 
-+-----------------------------------------------------------------------+
-| #Plot UMAP                                                            |
-|                                                                       |
-| DimPlot(merged_seurat, group.by = \"orig.ident\", reduction =         |
-| \"umap\")                                                             |
-|                                                                       |
-| #Plot tSNE                                                            |
-|                                                                       |
-| DimPlot(merged_seurat, group.by = \"orig.ident\", reduction =         |
-| \"tsne\")                                                             |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Plot UMAP                                                            
+                                                                       
+ DimPlot(merged_seurat, group.by = "orig.ident", reduction = "umap")                                                             
+                                                                       
+ #Plot tSNE                                                            
+                                                                       
+ DimPlot(merged_seurat, group.by = "orig.ident", reduction ="tsne")                                                             
+```
 
 ![](images/media/image6.png)![](images/media/image18.png)
 
 **Note:** *To visualise UMAP for each of the sample use split.by =
 "orig.ident" in DimPlot()*
 
-+-----------------------------------------------------------------------+
-| #Visualize UMAP for each sample separately                            |
-|                                                                       |
-| DimPlot(merged_seurat, group.by = \"orig.ident\", split.by =          |
-| \"orig.ident\", reduction = \"umap\")                                 |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Visualize UMAP for each sample separately                            
+                                                                       
+ DimPlot(merged_seurat, group.by = "orig.ident", split.by = "orig.ident", reduction = "umap")                                 
+```
 
 ![](images/media/image23.png)
 
@@ -616,96 +555,67 @@ variance.
 Firstly, we will normalize each sample independently and save them as a
 list of normalised Seurat objects.
 
-+-----------------------------------------------------------------------+
-| #Loop through each sample to normalize                                |
-|                                                                       |
-| split_seurat \<- lapply(split_seurat, function(x) {                   |
-|                                                                       |
-| SCTransform(x, verbose = FALSE)                                       |
-|                                                                       |
-| })                                                                    |
-|                                                                       |
-| \# Then select features that are repeatedly variable across datasets  |
-|                                                                       |
-| integ_features \<- SelectIntegrationFeatures(                         |
-|                                                                       |
-| object.list = split_seurat,                                           |
-|                                                                       |
-| nfeatures = 3000                                                      |
-|                                                                       |
-| )                                                                     |
-|                                                                       |
-| \# Prep integration                                                   |
-|                                                                       |
-| split_seurat \<- PrepSCTIntegration(                                  |
-|                                                                       |
-| object.list = split_seurat,                                           |
-|                                                                       |
-| anchor.features = integ_features                                      |
-|                                                                       |
-| )                                                                     |
-|                                                                       |
-| #Perform Integration                                                  |
-|                                                                       |
-| integ_anchors \<- FindIntegrationAnchors(object.list = split_seurat,  |
-|                                                                       |
-| normalization.method = \"SCT\",                                       |
-|                                                                       |
-| anchor.features = integ_features)                                     |
-|                                                                       |
-| seurat_integrated \<- IntegrateData(anchorset = integ_anchors,        |
-|                                                                       |
-| normalization.method = \"SCT\")                                       |
-|                                                                       |
-| seurat_integrated@assays                                              |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Loop through each sample to normalize                                
+                                                                       
+ split_seurat <- lapply(split_seurat, function(x) {  
+   SCTransform(x, verbose = FALSE)                                       |
+ })   
 
-+-----------------------------------------------------------------------+
-| \$RNA                                                                 |
-|                                                                       |
-| Assay (v5) data with 70761 features for 8517 cells                    |
-|                                                                       |
-| First 10 features:                                                    |
-|                                                                       |
-| DDX11L2, DDX11L1, WASH7P, MIR6859-1, MIR1302-2HG, MIR1302-2, FAM138A, |
-| OR4G4P, ENSG00000290826, OR4G11P                                      |
-|                                                                       |
-| Layers:                                                               |
-|                                                                       |
-| counts.b08st05.1, counts.b08st06.2, counts.b14st04.3,                 |
-| counts.b14st05.4                                                      |
-|                                                                       |
-| \$SCT                                                                 |
-|                                                                       |
-| SCTAssay data with 14086 features for 8517 cells, and 4 SCTModel(s)   |
-|                                                                       |
-| First 10 features:                                                    |
-|                                                                       |
-| MTND2P28, MTATP6P1, CCNL2, SSU72, GNB1, SKI, RER1, KCNAB2,            |
-| ENSG00000285629, RPL22                                                |
-|                                                                       |
-| \$integrated                                                          |
-|                                                                       |
-| SCTAssay data with 2678 features for 8517 cells, and 1 SCTModel(s)    |
-|                                                                       |
-| Top 10 variable features:                                             |
-|                                                                       |
-| CD74, GNLY, MALAT1, FTH1, NEAT1, KCNQ1OT1, NKG7, TALAM1, VIM, KLRB1   |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+# Then select features that are repeatedly variable across datasets  
+                                                                       
+ integ_features <- SelectIntegrationFeatures(                                                                                               
+ object.list = split_seurat,                                                                                                                 
+ nfeatures = 3000                                                                                                                            
+ )                                                                     
+                                                                       
+# Prep integration                                                   
+                                                                       
+split_seurat <- PrepSCTIntegration(                                  
+object.list = split_seurat,                                           
+anchor.features = integ_features                                                                                                            
+)                                                                     
+                                                                       
+#Perform Integration                                                                                                                      
+integ_anchors <- FindIntegrationAnchors(object.list = split_seurat,                                                            
+ normalization.method = "SCT",                                                                                                      
+ anchor.features = integ_features)  
+
+ seurat_integrated <- IntegrateData(anchorset = integ_anchors,     
+                                    normalization.method = "SCT")                                       
+                                                                       
+ seurat_integrated@assays                                              
+```
+
+```r
+#Output:
+
+ $RNA                                                                                                                                    
+ Assay (v5) data with 70761 features for 8517 cells                                                                                        
+ First 10 features:                                                                                                                         
+ DDX11L2, DDX11L1, WASH7P, MIR6859-1, MIR1302-2HG, MIR1302-2, FAM138A, 
+ OR4G4P, ENSG00000290826, OR4G11P                                                                                                           
+ Layers: counts.b08st05.1, counts.b08st06.2, counts.b14st04.3, counts.b14st05.4                                                      
+                                                                       
+ $SCT                                                                                                                                      
+ SCTAssay data with 14086 features for 8517 cells, and 4 SCTModel(s)                                                                        
+ First 10 features: MTND2P28, MTATP6P1, CCNL2, SSU72, GNB1, SKI, RER1, KCNAB2,            
+ ENSG00000285629, RPL22                                                
+                                                                       
+ $integrated                                                                                                                              
+ SCTAssay data with 2678 features for 8517 cells, and 1 SCTModel(s)                                                                     
+ Top 10 variable features: CD74, GNLY, MALAT1, FTH1, NEAT1, KCNQ1OT1, NKG7, TALAM1, VIM, KLRB1   
+```
 
 We can now save Seurat object at this stage into an rds file.
 
-+-----------------------------------------------------------------------+
-| #Save Integrated seurat object                                        |
-|                                                                       |
-| saveRDS(seurat_integrated,                                            |
-| \"E:/3rd_INDO-VIETNAM_WORKSHOP/Results/integrated_seurat.rds\")       |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Save Integrated seurat object                                        
+                                                                       
+ saveRDS(seurat_integrated, "E:/3rd_INDO-VIETNAM_WORKSHOP/Results/integrated_seurat.rds")       
+```
 
-**\# We will skip the data integration step for this tutorial as our
+**# We will skip the data integration step for this tutorial as our
 dataset does not have batch effects.**
 
 6.  **Cell Clustering**
@@ -716,18 +626,9 @@ represent similar cell types, cell states or transitional cell
 populations. It helps us to identify rare cell types. Cell clustering
 mainly includes two steps:
 
--   FindNeighbors():It constructs a **K-Nearest Neighbor (KNN) graph**
-    > of cells using the reduced dimensional space (usually PCA). It
-    > extracts the PCs (in our case dims = 1:10 i.e. PC1-PC10) for every
-    > cell and identifies the K nearest neighbors (default k = 20) to
-    > construct the Shared Nearest Neighbor (SNN) graph.
+-   FindNeighbors():It constructs a **K-Nearest Neighbor (KNN) graph** of cells using the reduced dimensional space (usually PCA). It extracts the PCs (in our case dims = 1:10 i.e. PC1-PC10) for every cell and identifies the K nearest neighbors (default k = 20) to construct the Shared Nearest Neighbor (SNN) graph.
 
--   FindClusters(): It detects communities in the SNN graph created by
-    > FindNeighbors(). You can control cluster granularity using
-    > resolution argument ( higher resolution means more clusters and
-    > vice-versa). You can also choose the algorithm to perform
-    > community detection using algorithm argument. Seurat provides four
-    > such algorithms which are as follows:
+-   FindClusters(): It detects communities in the SNN graph created by FindNeighbors(). You can control cluster granularity using resolution argument ( higher resolution means more clusters and vice-versa). You can also choose the algorithm to perform community detection using algorithm argument. Seurat provides four such algorithms which are as follows:
 
   ------------------------------------------------------------------------
   Value   Algorithm          Description
@@ -762,37 +663,33 @@ where clusters remain stable and show clear, distinct marker genes.*
 In this tutorial we will use the Leiden algorithm with increasing
 resolution to see how clustering changes with resolution.
 
-+-----------------------------------------------------------------------+
-| #Install leidenbase package to use Leiden algorithm                   |
-|                                                                       |
-| install.packages(\'leidenbase\')                                      |
-|                                                                       |
-| #Construct SNN graph                                                  |
-|                                                                       |
-| merged_seurat \<- FindNeighbors(merged_seurat, dims = 1:10)           |
-|                                                                       |
-| #Find clusters with resolution 0.4 and save plot                      |
-|                                                                       |
-| merged_seurat \<- FindClusters(merged_seurat, resolution = 0.4,       |
-| algorithm=4)                                                          |
-|                                                                       |
-| p0.4 \<- DimPlot(merged_seurat, reduction = \"umap\", label = TRUE)   |
-|                                                                       |
-| #Find clusters with resolution 0.7 and save plot                      |
-|                                                                       |
-| merged_seurat \<- FindClusters(merged_seurat, resolution = 0.7,       |
-| algorithm=4)                                                          |
-|                                                                       |
-| p0.7 \<- DimPlot(merged_seurat, reduction = \"umap\", label = TRUE)   |
-|                                                                       |
-| merged_seurat \<- FindClusters(merged_seurat, resolution = 1,         |
-| algorithm=4)                                                          |
-|                                                                       |
-| p1 \<- DimPlot(merged_seurat, reduction = \"umap\", label = TRUE)     |
-|                                                                       |
-| p + p1 + p2                                                           |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Install leidenbase package to use Leiden algorithm                   
+                                                                       
+ install.packages('leidenbase')                                      
+                                                                       
+ #Construct SNN graph                                                  
+                                                                       
+ merged_seurat <- FindNeighbors(merged_seurat, dims = 1:10)           
+                                                                       
+ #Find clusters with resolution 0.4 and save plot                      
+                                                                       
+ merged_seurat <- FindClusters(merged_seurat, resolution = 0.4, algorithm=4)                                                          
+                                                                  
+ p0.4 <- DimPlot(merged_seurat, reduction = "umap", label = TRUE)   
+                                                                       
+ #Find clusters with resolution 0.7 and save plot                      
+                                                                       
+ merged_seurat <- FindClusters(merged_seurat, resolution = 0.7, algorithm=4)                                                          
+                                                                       
+ p0.7 <- DimPlot(merged_seurat, reduction = "umap", label = TRUE)   
+                                                                       
+ merged_seurat <- FindClusters(merged_seurat, resolution = 1, algorithm=4)                                                          
+                                                                       
+ p1 <- DimPlot(merged_seurat, reduction = "umap", label = TRUE)     
+                                                                       
+ p + p1 + p2                                                           
+```
 
 **0.4 0.7 1**
 
