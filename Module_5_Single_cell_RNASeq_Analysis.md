@@ -674,18 +674,16 @@ resolution to see how clustering changes with resolution.
                                                                        
  #Find clusters with resolution 0.4 and save plot                      
                                                                        
- merged_seurat <- FindClusters(merged_seurat, resolution = 0.4, algorithm=4)                                                          
-                                                                  
- p0.4 <- DimPlot(merged_seurat, reduction = "umap", label = TRUE)   
-                                                                       
+ merged_seurat <- FindClusters(merged_seurat, resolution = 0.4, algorithm=4)                                                         
+ p0.4 <- DimPlot(merged_seurat, reduction = "umap", label = TRUE)                                                                      
  #Find clusters with resolution 0.7 and save plot                      
                                                                        
  merged_seurat <- FindClusters(merged_seurat, resolution = 0.7, algorithm=4)                                                          
-                                                                       
  p0.7 <- DimPlot(merged_seurat, reduction = "umap", label = TRUE)   
-                                                                       
+
+ #Find clusters with resolution 1 and save plot  
+
  merged_seurat <- FindClusters(merged_seurat, resolution = 1, algorithm=4)                                                          
-                                                                       
  p1 <- DimPlot(merged_seurat, reduction = "umap", label = TRUE)     
                                                                        
  p + p1 + p2                                                           
@@ -705,48 +703,42 @@ This analysis compares each cluster against all others and outputs the
 genes that are differentially expressed using the FindAllMarkers()
 function.
 
-+-----------------------------------------------------------------------+
-| \# When working with merged datasets, first we need to run this       |
-|                                                                       |
-| merged_seurat \<- PrepSCTFindMarkers(merged_seurat)                   |
-|                                                                       |
-| \# Find markers for every cluster compared to all remaining cells,    |
-| report only the positive ones                                         |
-|                                                                       |
-| cell_markers \<- FindAllMarkers(merged_seurat, only.pos = TRUE,       |
-| min.pct = 0.25, logfc.threshold = 0.25)                               |
-|                                                                       |
-| \# get the top 10 hits for each cluster                               |
-|                                                                       |
-| top_cell_markers \<- cell_markers %\>% group_by(cluster) %\>%         |
-| slice_max(n = 20, order_by = avg_log2FC)                              |
-|                                                                       |
-| view(top_cell_markers)                                                |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ # When working with merged datasets, first we need to run this       
+                                                                      
+ merged_seurat <- PrepSCTFindMarkers(merged_seurat)                   
+                                                                      
+ # Find markers for every cluster compared to all remaining cells, report only the positive ones                                        
+                                                                       
+ cell_markers <- FindAllMarkers(merged_seurat, 
+                                only.pos = TRUE,       
+                                min.pct = 0.25, 
+                                logfc.threshold = 0.25)                               
+                                                                       
+ # get the top 10 hits for each cluster                               
+                                                                       
+ top_cell_markers <- cell_markers %>% group_by(cluster) %>% slice_max(n = 20, order_by = avg_log2FC)                              
+                                                                       
+ view(top_cell_markers)                                                
+```
 
 ![](images/media/image14.png)
 
-Now we have the top 20 marker genes for each cluster. Save this file in
-.csv format.
+Now we have the top 20 marker genes for each cluster. Save this file in .csv format.
 
-  -----------------------------------------------------------------------
-  write.csv(top_cell_markers, file = \"Cell_marker_genes.csv\")
-  -----------------------------------------------------------------------
-
-  -----------------------------------------------------------------------
+```r
+  write.csv(top_cell_markers, file = "Cell_marker_genes.csv")
+```
 
 [DoHeatmap()](https://satijalab.org/seurat/reference/doheatmap)
 generates an expression heatmap for given cells and features. In this
 case, we are plotting the top 20 markers for each cluster.
 
-+-----------------------------------------------------------------------+
-| #Plot top 20 marker genes for each cluster                            |
-|                                                                       |
-| DoHeatmap(merged_seurat, features = top_cell_markers\$gene) +         |
-| NoLegend()                                                            |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Plot top 20 marker genes for each cluster                            
+                                                                       
+ DoHeatmap(merged_seurat, features = top_cell_markers\$gene) + NoLegend()                                                            
+```
 
 ![](images/media/image17.png)
 
@@ -756,14 +748,13 @@ Public Databases for manual annotation:
 
 -   Cell Marker 2.0
 
-> Automated Cell Annotation Tool:
+-   Automated Cell Annotation Tool:
 
 -   Azimuth
 
 -   CellAnnotator
 
-> Here, we manually annotate clusters using public databases based on
-> top 20 marker genes and the result are as follows:
+Here, we manually annotate clusters using public databases based on top 20 marker genes and the result are as follows:
 
 **Cluster 1 - Naive CD8+/CD4+ T Cell**
 
@@ -783,77 +774,65 @@ annotation. For example marker genes for Natural Killer Cells are GNLY
 and NKG7. Let us plot these genes in UMAP to see if its expression is
 overlapping with cluster 3 or not.
 
-+-----------------------------------------------------------------------+
-| #Plotting marker genes for Natural Killer Cells                       |
-|                                                                       |
-| FeaturePlot(merged_seurat,                                            |
-|                                                                       |
-| features = c(\"GNLY\",\"NKG7\"),                                      |
-|                                                                       |
-| reduction = \"umap\",                                                 |
-|                                                                       |
-| min.cutoff = \"q10\",                                                 |
-|                                                                       |
-| label = TRUE)                                                         |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+#Plotting marker genes for Natural Killer Cells                       
+                                                                       
+ FeaturePlot(merged_seurat,                                                                                            
+ features = c("GNLY","NKG7"),                                      
+ reduction = "umap",                                                 
+ min.cutoff = "q10",                                                 
+ label = TRUE)                                                         
+```
 
 From the above graph, now we are more confident that cluster 3 belongs
 to natural killer cells. You can repeat the same for all other cell
 types or alternatively can visualise the expression of marker genes
 using DotPlot(). Before that let us rename our clusters with the new
 cell types using RenameIdents() function.
+
 ![](images/media/image9.png)
 
-+-----------------------------------------------------------------------+
-| merged_seurat\$CellType \<- recode(merged_seurat\$seurat_clusters,    |
-|                                                                       |
-| \"1\" = \"Naive T cell\",                                             |
-|                                                                       |
-| \"2\" = \"Memory T cell\",                                            |
-|                                                                       |
-| \"3\" = \"Natural Killer cell\",                                      |
-|                                                                       |
-| \"4\" = \"B cell\",                                                   |
-|                                                                       |
-| \"5\" = \"RBC\",                                                      |
-|                                                                       |
-| \"6\" = \"Dendritic cell\")                                           |
-|                                                                       |
-| Idents(merged_seurat) \<- \"CellType\"                                |
-|                                                                       |
-| #Plotting known marker genes for identified 6 cell types              |
-|                                                                       |
-| DotPlot(merged_seurat, features =                                     |
-| c(\"CST3\",\"TH                                                       |
-| BD\",\"HLA-DRB1\",\"HBB\",\"HBA1\",\"HBA2\",\"MS4A1\",\"CD79A\",\"GNL |
-| Y\",\"NKG7\",\"GZMB\",\"IL7R\",\"PTPRC\",\"LEF1\",\"SELL\",\"TCF7\"), |
-|                                                                       |
-| cols = c(\"lightgrey\", \"red\")) +                                   |
-|                                                                       |
-| RotatedAxis()                                                         |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ merged_seurat$CellType <- recode(merged_seurat$seurat_clusters,    
+                                                                    
+ "1" = "Naive T cell",                                             
+                                                                   
+ "2" = "Memory T cell",                                            
+                                                                   
+ "3" = "Natural Killer cell",                                      
+                                                                   
+ "4" = "B cell",                                                   
+                                                                   
+ "5" = "RBC",                                                      
+                                                                   
+ "6" = "Dendritic cell")                                           
+                                                                   
+ Idents(merged_seurat) <- "CellType"                               
+                                                                   
+ #Plotting known marker genes for identified 6 cell types          
+                                                                   
+ DotPlot(merged_seurat, features = 
+                         c("CST3","THBD","HLA-DRB1","HBB","HBA1","HBA2","MS4A1","CD79A","GNLY",
+                         "NKG7","GZMB","IL7R","PTPRC","LEF1","SELL","TCF7"), 
+                         cols = c("lightgrey", "red")) +                                   
+  RotatedAxis()                                                         
+```
 
 ![](images/media/image13.png)
 
-+-----------------------------------------------------------------------+
-| #Plotting final UMAP after cell annotation                            |
-|                                                                       |
-| DimPlot(merged_seurat, reduction = \"umap\", label = TRUE)            |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Plotting final UMAP after cell annotation                            
+                                                                       
+ DimPlot(merged_seurat, reduction = "umap", label = TRUE)            
+```
 
 ![](images/media/image21.png)
 
 Save the final labelled Seurat object:
 
-  -----------------------------------------------------------------------
-  saveRDS(merged_seurat,
-  \"E:/3rd_INDO-VIETNAM_WORKSHOP/Results/Labelled_seurat-object.rds\")
-  -----------------------------------------------------------------------
-
-  -----------------------------------------------------------------------
+```r
+  saveRDS(merged_seurat,"E:/3rd_INDO-VIETNAM_WORKSHOP/Results/Labelled_seurat-object.rds")
+```
 
 8.  **Differential Expression Analysis**
 
@@ -865,8 +844,7 @@ such as:
 
 -   Between conditions (Healthy vs Infected)
 
--   Within a cluster across conditions( e.g Natural Killer cell :
-    > Healthy vs Infected)
+-   Within a cluster across conditions( e.g Natural Killer cell : Healthy vs Infected)
 
 While doing cell annotation we already performed differential expression
 analysis between clusters(cell types) using FindallMarkers() function.
@@ -874,65 +852,44 @@ Now we will do differential expression between conditions (i.e. Healthy
 vs Infected) using FindMarkers() function. Before that we need to add
 condition information to our meta.data:
 
-+-----------------------------------------------------------------------+
-| merged_seurat\$Condition \<- ifelse(                                  |
-|                                                                       |
-| merged_seurat\$orig.ident %in% c(\"b08st05\", \"b08st06\"),           |
-|                                                                       |
-| \"Infected\",                                                         |
-|                                                                       |
-| \"Healthy\")                                                          |
-|                                                                       |
-| table(merged_seurat@meta.data\$Condition)                             |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ merged_seurat$Condition <- ifelse(                                  
+                                                                     
+ merged_seurat$orig.ident %in% c("b08st05", "b08st06"),"Infected","Healthy")                                                       
+                                                                  
+ table(merged_seurat@meta.data$Condition)                         
+```
 
-+-----------------------------------------------------------------------+
-| [Healthy Infected]{.mark}                                             |
-|                                                                       |
-| [7091 1426]{.mark}                                                    |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ Healthy Infected
+            
+ 7091 1426                                                   
+```
 
 -   Differential expression between condition using FindMarkers():
 
-+-----------------------------------------------------------------------+
-| Idents(merged_seurat) \<- \"Condition\"                               |
-|                                                                       |
-| de_global \<- FindMarkers(                                            |
-|                                                                       |
-| merged_seurat,                                                        |
-|                                                                       |
-| ident.1 = \"Infected\",                                               |
-|                                                                       |
-| ident.2 = \"Healthy\",                                                |
-|                                                                       |
-| logfc.threshold = 0.25,                                               |
-|                                                                       |
-| min.pct = 0.1,                                                        |
-|                                                                       |
-| test.use = \"wilcox\")                                                |
-|                                                                       |
-| head(de_global)                                                       |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ Idents(merged_seurat) <- "Condition"                               
+                                                                    
+ de_global <- FindMarkers(merged_seurat,                                                     
+                          ident.1 = "Infected",                                              
+                          ident.2 = "Healthy",                                               
+                          logfc.threshold = 0.25,                                            
+                          min.pct = 0.1,                                                     
+                          test.use = "wilcox")                                               
+ head(de_global)                                                    
+```
 
-+-----------------------------------------------------------------------+
-| [ p_val avg_log2FC pct.1 pct.2 p_val_adj]{.mark}                      |
-|                                                                       |
-| [HBB 0.000000e+00 15.297899 0.869 0.000 0.000000e+00]{.mark}          |
-|                                                                       |
-| [HBA1 0.000000e+00 13.231387 0.410 0.000 0.000000e+00]{.mark}         |
-|                                                                       |
-| [HBA2 0.000000e+00 13.002265 0.379 0.000 0.000000e+00]{.mark}         |
-|                                                                       |
-| [MT-CO3 5.215769e-286 -1.655461 0.432 0.851 7.346933e-282]{.mark}     |
-|                                                                       |
-| [MT-CO1 6.328071e-229 -1.433914 0.555 0.883 8.913721e-225]{.mark}     |
-|                                                                       |
-| [MT-CYB 1.559886e-204 -1.093052 0.680 0.925 2.197256e-200]{.mark}     |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+p_val avg_log2FC pct.1 pct.2 p_val_adj
+                                                                      
+HBB 0.000000e+00 15.297899 0.869 0.000 0.000000e+00                                                                      
+HBA1 0.000000e+00 13.231387 0.410 0.000 0.000000e+00                                                                       
+HBA2 0.000000e+00 13.002265 0.379 0.000 0.000000e+00                                                                       
+MT-CO3 5.215769e-286 -1.655461 0.432 0.851 7.346933e-282                                                                       
+MT-CO1 6.328071e-229 -1.433914 0.555 0.883 8.913721e-225                                                                      
+MT-CYB 1.559886e-204 -1.093052 0.680 0.925 2.197256e-200
+```
 
 It compares two groups of cells and returns:
 
@@ -942,8 +899,7 @@ It compares two groups of cells and returns:
 
 -   **p_val_adj** → FDR-adjusted p-value
 
--   **pct.1 / pct.2** → percentage of cells expressing the gene in each
-    > condition
+-   **pct.1 / pct.2** → percentage of cells expressing the gene in each condition
 
 **Note:** *This method compares all healthy cells with all infected
 cells and ignores cell-type specific differences and hence is not
@@ -954,55 +910,45 @@ For cell-type specific DE you can subset Seurat object based on cluster
 name and then can use FindMarkers() function for comparison between
 conditions. Here is an example for Natural Killer cell:
 
-+-----------------------------------------------------------------------+
-| Idents(merged_seurat) \<- \"CellType\"                                |
-|                                                                       |
-| levels(Idents(merged_seurat))                                         |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+| Idents(merged_seurat) <- "CellType"                                
+|                                                                    
+| levels(Idents(merged_seurat))                                      
+```
 
-+-----------------------------------------------------------------------+
-| [\[1\] \"Naive T cell\" \"Memory T cell\" \"Natural Killer cell\" \"B |
-| cell\"]{.mark}                                                        |
-|                                                                       |
-| [\[5\] \"RBC\" \"Dendritic cell\"]{.mark}                             |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+[1] "Naive T cell" "Memory T cell" "Natural Killer cell" "B cell"
+[5] "RBC" "Dendritic cell"                          
+```
 
 Subset cluster followed by DE within cluster:
 
-+-----------------------------------------------------------------------+
-| #Subset cluster                                                       |
-|                                                                       |
-| NK \<- subset(merged_seurat, idents = \"Natural Killer cell\")        |
-|                                                                       |
-| \# Set identity to Group                                              |
-|                                                                       |
-| Idents(NK) \<- \"Condition\"                                          |
-|                                                                       |
-| NK \<- PrepSCTFindMarkers(NK)                                         |
-|                                                                       |
-| NK_cluster \<- FindMarkers(NK,                                        |
-|                                                                       |
-| ident.1 = \"Infected\",                                               |
-|                                                                       |
-| ident.2 = \"Healthy\",                                                |
-|                                                                       |
-| logfc.threshold = 0.25,                                               |
-|                                                                       |
-| min.pct = 0.1,                                                        |
-|                                                                       |
-| test.use = \"wilcox\"                                                 |
-|                                                                       |
-| )                                                                     |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #Subset cluster                                                       
+                                                                       
+ NK <- subset(merged_seurat, idents = "Natural Killer cell")        
+                                                                       
+ # Set identity to Group                                              
+                                                                       
+ Idents(NK) <- "Condition"                                          
+                                                                       
+ NK <- PrepSCTFindMarkers(NK)                                         
+                                                                       
+ NK_cluster <- FindMarkers(NK,                                        
+                           ident.1 = "Infected",                                               
+                           ident.2 = "Healthy",                                                
+                           logfc.threshold = 0.25,                                               
+                           min.pct = 0.1,                                                        
+                           test.use = "wilcox"                                                 
+)                                                                     
+```
 
 The top 10 DE genes in Healthy vs Infected Natural Killer cells:
 
 In Seurat default differential expression, each cell is treated as a
 separate observation which can inflate p-values. Hence it is recommended
 to do pseudobulk analysis.
+
 ![](images/media/image10.png)
 
 -   **Pseudobulk Analysis**
@@ -1014,59 +960,40 @@ allowing for robust differential expression analysis using established
 tools (DESeq2, edgeR) while retaining single-cell resolution for
 identifying cell types.
 
-+-----------------------------------------------------------------------+
-| #pseudobulk analysis                                                  |
-|                                                                       |
-| pseudo \<- AggregateExpression(                                       |
-|                                                                       |
-| NK,                                                                   |
-|                                                                       |
-| group.by = \"orig.ident\",                                            |
-|                                                                       |
-| assays = \"RNA\",                                                     |
-|                                                                       |
-| slot = \"counts\"                                                     |
-|                                                                       |
-| )                                                                     |
-|                                                                       |
-| #countData                                                            |
-|                                                                       |
-| counts \<- pseudo\$RNA                                                |
-|                                                                       |
-| #colData                                                              |
-|                                                                       |
-| sample_info \<- data.frame(                                           |
-|                                                                       |
-| row.names = colnames(counts),                                         |
-|                                                                       |
-| Condition = ifelse(colnames(counts) %in%                              |
-| c(\"b08st05\",\"b08st06\"),\"Infected\",\"Healthy\")                  |
-|                                                                       |
-| )                                                                     |
-|                                                                       |
-| #Load DESeq2 library                                                  |
-|                                                                       |
-| library("DESeq2")                                                     |
-|                                                                       |
-| #Create DESeq object                                                  |
-|                                                                       |
-| dds \<- DESeqDataSetFromMatrix(                                       |
-|                                                                       |
-| countData = counts,                                                   |
-|                                                                       |
-| colData = sample_info,                                                |
-|                                                                       |
-| design = \~ Condition                                                 |
-|                                                                       |
-| )                                                                     |
-|                                                                       |
-| dds \<- DESeq(dds)                                                    |
-|                                                                       |
-| #Save results                                                         |
-|                                                                       |
-| res \<- results(dds)                                                  |
-+=======================================================================+
-+-----------------------------------------------------------------------+
+```r
+ #pseudobulk analysis                                                  
+                                                                       
+ pseudo <- AggregateExpression(NK,                                     
+                               group.by = "orig.ident",                
+                               assays = "RNA",                         
+                               slot = "counts"                         
+                               )                                       
+                                                                       
+ #countData                                                            
+ counts <- pseudo$RNA                                                
+                                                                     
+ #colData                                                            
+ sample_info <- data.frame(row.names = colnames(counts),             
+                           Condition = ifelse(colnames(counts) %in%  
+                           c("b08st05","b08st06"),"Infected","Healthy")                                                                   
+ )                                                                     
+                                                                       
+ #Load DESeq2 library                                                  
+                                                                       
+ library("DESeq2")                                                     
+                                                                       
+ #Create DESeq object                                                  
+                                                                       
+ dds <- DESeqDataSetFromMatrix(countData = counts,                                                   
+                               colData = sample_info,                                                
+                               design = ~ Condition                                                 
+                             )                                                                     
+                                                                       
+ dds <- DESeq(dds)                                                    
+                                                                       
+ #Save results                                                                                                                           
+ res <- results(dds)                                                  
+```
 
 The top 10 DE genes in Healthy vs Infected Natural Killer
 cells:![](images/media/image11.png)
