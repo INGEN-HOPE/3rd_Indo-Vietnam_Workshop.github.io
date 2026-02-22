@@ -11,9 +11,6 @@ PBMC Isolation and Single-Cell Capture</strong></h1></td>
 </tbody>
 </table>
 
-<div style="background-color:#f6f8fa; padding:20px; border-radius:10px; border:1px solid #d0d7de;">
-  <h1 align="center">Module 1 : PBMC Isolation and Single-Cell Capture</h1>
-</div>
 
 ## 1. Single-Cell RNA Sequencing Overview 
 
@@ -88,9 +85,9 @@ profiling expands this into a broader toolkit for simultaneously
 dissecting immune repertoires, regulatory landscapes, and cell-cell
 communication during infection.
 
-<img src="media/image5.png" style="width:6.38189in;height:2.30556in" />
+<img src="images/media/image29.png" style="width:6.38189in;height:2.30556in" />
 
-Microwell vs Droplet-Based Techniques:
+# Microwell vs Droplet-Based Techniques:
 
 Drop-seq and microwell-based single-cell platforms differ mainly in how
 they isolate and barcode individual cells and what that implies for
@@ -114,7 +111,7 @@ the droplet.
 
 ## 
 
-## **2. PBMC Isolation Protocol from Blood**
+## 2. PBMC Isolation Protocol from Blood**
 
 **2.1 Introduction**
 
@@ -124,7 +121,7 @@ high-quality, viable immune cell population suitable for single-cell
 transcriptomic profiling. PBMC isolation enriches lymphocytes &
 monocytes while removing erythrocytes & granulocytes, thereby minimizing
 background noise & technical variability.
-<img src="media/image1.png" style="width:3.12171in;height:1.7077in" />
+<img src="images/media/image25.png" style="width:3.12171in;height:1.7077in" />
 
 **Figure 1:** PBMCs Isolation by Density Gradient Centrifugation.
 
@@ -208,7 +205,7 @@ FBS: DMSO), 15 mL & 50 mL Falcon tubes, cryotubes, and 1.5 mL MCT
 
 ## **3. Single Cell Labelling with the BD® Single-Cell Multiplexing Kits**
 
-<img src="media/image4.jpg" style="width:1.71994in;height:2.08274in" />
+
 
 **3.1 Introduction**
 
@@ -219,6 +216,8 @@ Single-Cell Multiplexing Kit, referred to as a Sample Tag, has a unique
 sample oligo barcode conjugated to a human universal antibody. Up to 12
 samples can be labelled & pooled before single-cell capture with the BD
 Rhapsody Single-Cell Analysis system.
+
+<img src="images/media/image28.jpg" style="width:1.71994in;height:2.08274in" />
 
 **3.2 Materials Required**
 
@@ -236,7 +235,7 @@ Rhapsody Single-Cell Analysis system.
     \> the bottom.
 
 3.  For each sample, transfer 190 µL of cell suspension to a Sample Tag
-    \> tube![](media/image3.jpg){width=“2.5104166666666665in” \>
+    \> tube![](images/media/image27.jpg){width=“2.5104166666666665in” \>
     height=“0.8941207349081365in”}
 
 4.  Pipet-mix & incubate at RT for 20 minutes. Note down the Sample Tag
@@ -285,7 +284,7 @@ details, follow:
 ## **4. Single-Cell Capture In a Microwell**
 
 **4.1 Introduction**
-<img src="media/image2.png" style="width:5.85429in;height:1.69601in" />
+<img src="images/media/image26.png" style="width:5.85429in;height:1.69601in" />
 
 (Shum et al., 2019)
 
