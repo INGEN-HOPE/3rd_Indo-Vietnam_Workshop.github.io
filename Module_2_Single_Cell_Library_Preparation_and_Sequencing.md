@@ -1,56 +1,21 @@
-```{=html}
 <table>
-```
-```{=html}
 <colgroup>
-```
-```{=html}
 <col style="width: 100%" />
-```
-```{=html}
 </colgroup>
-```
-```{=html}
-<thead>
-```
-```{=html}
-<tr class="header">
-```
-```{=html}
-<th>
-```
-```{=html}
-<h1 id="module-2-single-cell-library-preparation-and-sequencing">
-```
-`<strong>`{=html}Module 2: Single-Cell Library Preparation and
-Sequencing`</strong>`{=html}
-```{=html}
-</h1>
-```
-```{=html}
-</th>
-```
-```{=html}
-</tr>
-```
-```{=html}
-</thead>
-```
-```{=html}
 <tbody>
-```
-```{=html}
+<tr class="odd">
+<td><h1
+id="module-1-pbmc-isolation-and-single-cell-capture"><strong>Module 2: Single-cell Library Preparation and Sequencing</strong></h1></td>
+</tr>
 </tbody>
-```
-```{=html}
 </table>
-```
-## 
+
 
 ## **1. mRNA Whole Transcriptome Analysis (WTA) & Sample Tag Library Preparation Protocol**
 
-**1.1
-Introduction:**`<img src="media/image2.png" style="width:5.16667in;height:4.88563in" />`{=html}
+**1.1 Introduction:**
+
+`<img src="media/image2.png" style="width:5.16667in;height:4.88563in" />`{=html}
 
 **Figure 2:** Showing workflow of mRNA Whole Transcriptome Analysis
 (WTA) & Sample Tag Library Preparation
@@ -75,8 +40,7 @@ Sample Tag libraries can be combined for sequencing.
 
 `<img src="media/image3.jpg" style="width:4.72396in;height:6.236in" />`{=html}
 
-**1.3 Performing random priming and extension (RPE) on BD Rhapsody
-Enhanced Cell Capture Beads with cDNA:**
+**1.3 Performing random priming and extension (RPE) on BD Rhapsody Enhanced Cell Capture Beads with cDNA:**
 
 This section outlines the procedure for generating random priming
 products. Initially, sample tags containing barcode sequences are
@@ -94,22 +58,13 @@ single cells for whole transcription amplification library preparation.
 
 2.  In a new 1.5-mL LoBind® tube, pipet the following reagents
 
-  -----------------------------------------------------------------------
-  **Random priming mix**                                 
-  ------------------ ------------------ ---------------------------------
-  **S.No.**          **Reagents**       **For one library with 10%overage (μL)**
-
-  **1**              WTA Extension      22
-                     Buffer             
-
-  **2**              WTA extension      22
-                     Primers            
-
-  **3**              Nuclease-Free      147.4
-                     Water              
-
-                     **Total**          191.4
-  -----------------------------------------------------------------------
+| **S.No.**    | **Reagents**                 | **For one library with 10%overage (μL)** |
+|:-------------|:-----------------------------|:-----------------------------------------|
+| **1.**       | WTA extension Buffer         | 22                                       | 
+| **2.**       | WTA extension Primers        | 22                                       | 
+| **3.**       | Nuclease-Free Water          | 147.4                                    | 
+| **4.**       | **Total**                    | 191.4                                    |
+ 
 
 3.  Resuspend the exonuclease I-treated capture beads with a pipet.
 
