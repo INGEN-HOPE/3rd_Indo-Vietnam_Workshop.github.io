@@ -187,13 +187,15 @@ following command:
 After creating the seurat object the Global R environment will look
 something like this:
 
+![](images/media/image7.png)
+
 Let's have a quick look at our metadata:
 
 ```r
   head(merged_seurat@meta.data)
 ```
 
-![](images/media/image7.png)
+
 
 ```r
                                 orig.ident nCount_RNA nFeature_RNA                                                                            
@@ -630,27 +632,7 @@ mainly includes two steps:
 
 -   FindClusters(): It detects communities in the SNN graph created by FindNeighbors(). You can control cluster granularity using resolution argument ( higher resolution means more clusters and vice-versa). You can also choose the algorithm to perform community detection using algorithm argument. Seurat provides four such algorithms which are as follows:
 
-  ------------------------------------------------------------------------
-  Value   Algorithm          Description
-  ------- ------------------ ---------------------------------------------
-  1       Louvain            Greedy modularity optimization; groups nodes
-                             to maximize within-cluster connectivity. Fast
-                             but can produce unstable or disconnected
-                             clusters.
-
-  2       Louvain with       Improved Louvain with additional refinement
-          multilevel         steps; more stable partitions and better
-          refinement         modularity optimization.
-
-  3       SLM (Smart Local   More aggressive modularity optimization than
-          Moving)            Louvain; better at detecting smaller
-                             communities in large graphs.
-
-  4       Leiden             Improved Louvain that guarantees
-                             well-connected clusters and better partition
-                             quality; generally preferred in modern
-                             analyses.
-  ------------------------------------------------------------------------
+![](images/media/image24.png)
 
 **Note:** *Choosing the right resolution in Seurat is about finding a
 balance between biological meaning and clustering stability. In
