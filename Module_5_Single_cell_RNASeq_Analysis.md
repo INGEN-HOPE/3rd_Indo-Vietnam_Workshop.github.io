@@ -21,7 +21,7 @@ and are classified into following groupings:
 
 -   Healthy : 2 samples (b14st04, b14st05)
 
--   Infected : 2 samples (b08st04 and b08st05)
+-   Infected : 2 samples (b08st05 and b08st06)
 
 3.  **Setting up the R environment**
 
