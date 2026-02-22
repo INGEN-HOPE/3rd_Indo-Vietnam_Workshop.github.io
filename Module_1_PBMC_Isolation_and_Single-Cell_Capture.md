@@ -121,6 +121,7 @@ high-quality, viable immune cell population suitable for single-cell
 transcriptomic profiling. PBMC isolation enriches lymphocytes &
 monocytes while removing erythrocytes & granulocytes, thereby minimizing
 background noise & technical variability.
+
 <img src="images/media/image25.png" style="width:3.12171in;height:1.7077in" />
 
 **Figure 1:** PBMCs Isolation by Density Gradient Centrifugation.
@@ -235,8 +236,7 @@ Rhapsody Single-Cell Analysis system.
     \> the bottom.
 
 3.  For each sample, transfer 190 µL of cell suspension to a Sample Tag
-    \> tube![](images/media/image27.jpg){width=“2.5104166666666665in” \>
-    height=“0.8941207349081365in”}
+    \> tube![](images/media/image27.jpg)
 
 4.  Pipet-mix & incubate at RT for 20 minutes. Note down the Sample Tag
     \> ID given to each sample.
@@ -284,6 +284,7 @@ details, follow:
 ## **4. Single-Cell Capture In a Microwell**
 
 **4.1 Introduction**
+
 <img src="images/media/image26.png" style="width:5.85429in;height:1.69601in" />
 
 (Shum et al., 2019)
@@ -328,11 +329,7 @@ loading**
 We need \~25000 cells for the loading, which can be calculated using the
 formula:
 
-Volume to Load = <u>Total cells desired to load</u>
-
-> Concentration of suspension
->
-> (cell/µL)
+Volume to Load = <u>Total cells desired to load</u> / Concentration of suspension (cell/µL)
 
 Since we need the total cells desired to load = \~ 25000 cells.
 Calculate the volume to load.
@@ -385,8 +382,7 @@ Calculate the volume to load.
 **Note:** *During the 15-minute incubation, prepare the Cell Capture
 Beads or BD Rhapsody Enhanced Cell Capture Beads.*
 
-**4.5 Preparing cell capture beads  
-**
+**4.5 Preparing cell capture beads**
 
 1.  Place the Cell Capture Bead tube on the magnet for 1 minute, and \>
     remove the storage buffer.
