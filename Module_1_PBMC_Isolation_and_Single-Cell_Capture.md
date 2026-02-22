@@ -11,10 +11,11 @@ PBMC Isolation and Single-Cell Capture</strong></h1></td>
 </tbody>
 </table>
 
-+=======================================================================+
-+———————————————————————–+
+<div style="background-color:#f6f8fa; padding:20px; border-radius:10px; border:1px solid #d0d7de;">
+  <h1 align="center">Module 1 : PBMC Isolation and Single-Cell Capture</h1>
+</div>
 
-## **1. Single-Cell RNA Sequencing Overview **
+## 1. Single-Cell RNA Sequencing Overview 
 
 Next-generation sequencing (NGS) platforms have rapidly improved in both
 accuracy and throughput while becoming far more affordable. This shift
